@@ -1,20 +1,274 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import * as React from "react";
+import { NavigationContainer } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { Ionicons } from "@expo/vector-icons";
+import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
+import Register from "./screens/Register";
+import Profile from "./screens/Profile";
+import UpdateProfile from "./screens/UpdateProfile";
+import UserPage from "./screens/UserPage";
+import AdminPage from "./screens/AdminPage";
+import LoginScreen from "./screens/LoginScreen";
+import ContentScreen from "./screens/ContentScreen";
+import DetailScreen from "./screens/DetailScreen";
+import HomeScreen from "./screens/HomeScreen";
+import UserList from "./UserList";
+import ApiTest from "./ApiTest";
 
-export default function App() {
+const Stack = createNativeStackNavigator();
+const Tab = createBottomTabNavigator();
+
+const horizontalAnimation = {
+  gestureDirection: "horizontal",
+  cardStyleInterpolator: ({ current, layouts }) => {
+    return {
+      cardStyle: {
+        transform: [
+          {
+            translateX: current.progress.interpolate({
+              inputRange: [0, 1],
+              outputRange: [layouts.screen.width, 0],
+            }),
+          },
+        ],
+      },
+    };
+  },
+};
+
+function HomeStack() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <Stack.Navigator screenOptions={horizontalAnimation}>
+      <Stack.Screen
+        name="HomeScreen"
+        component={HomeScreen}
+        options={{
+          headerShown: false,
+
+          title: "หน้า HomeScreen",
+          headerStyle: {
+            backgroundColor: "#FF7F50",
+          },
+        }}
+      />
+      <Stack.Screen
+        name="LoginScreen"
+        component={LoginScreen}
+        options={{
+          headerShown: false,
+
+          title: "หน้า LoginScreen",
+          headerStyle: {
+            backgroundColor: "#FF7F50",
+          },
+        }}
+      />
+
+      <Stack.Screen
+        name="Profile"
+        component={Profile}
+        options={{
+          headerShown: true,
+
+          title: "โปรไฟล์",
+          headerStyle: {
+            backgroundColor: "#FF7F50",
+          },
+        }}
+      />
+      <Stack.Screen
+        name="UpdateProfile"
+        component={UpdateProfile}
+        options={{
+          headerShown: true,
+
+          headerStyle: {
+            backgroundColor: "#003f5c", // Set the background color of the header (Top Tab bar)
+          },
+          title: "แก้ไขข้อมูล",
+          headerStyle: {
+            backgroundColor: "#FF7F50",
+          },
+        }}
+      />
+      <Stack.Screen
+        name="Register"
+        component={Register}
+        options={{
+          headerShown: true,
+
+          headerStyle: {
+            backgroundColor: "#003f5c", // Set the background color of the header (Top Tab bar)
+          },
+          title: "สมัครสมาชิก",
+          headerStyle: {
+            backgroundColor: "#FF7F50",
+          },
+        }}
+      />
+      <Stack.Screen
+        name="DetailScreen"
+        component={DetailScreen}
+        options={{
+          headerShown: false,
+
+          headerStyle: {
+            backgroundColor: "#003f5c", // Set the background color of the header (Top Tab bar)
+          },
+          title: "หน้า DetailScreen",
+          headerStyle: {
+            backgroundColor: "#FF7F50",
+          },
+        }}
+      />
+      <Stack.Screen
+        name="AdminPage"
+        component={AdminPage}
+        options={{
+          headerShown: true,
+
+          title: "หน้า Admin",
+          headerStyle: {
+            backgroundColor: "#FF7F50",
+          },
+        }}
+      />
+      <Stack.Screen
+        name="UserPage"
+        component={UserPage}
+        options={{
+          headerShown: true,
+
+          title: "หน้า User",
+          headerStyle: {
+            backgroundColor: "#FF7F50",
+          },
+        }}
+      />
+      <Stack.Screen
+        name="UserList"
+        component={UserList}
+        options={{
+          headerShown: true,
+
+          title: "หน้า UserList",
+          headerStyle: {
+            backgroundColor: "#FF7F50",
+          },
+        }}
+      />
+      <Stack.Screen
+        name="ApiTest"
+        component={ApiTest}
+        options={{
+          headerShown: true,
+
+          title: "หน้า ApiTest",
+          headerStyle: {
+            backgroundColor: "#FF7F50",
+          },
+        }}
+      />
+    </Stack.Navigator>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+const App = () => {
+  return (
+    <NavigationContainer>
+      <Tab.Navigator
+        initialRouteName="" // Set LoginScreen as the initial tab
+        screenOptions={{
+          headerShown: true,
+
+          //tabBarShowLabel: false, // Hide the screen names
+          tabBarActiveTintColor: "#e91e63",
+          activeColor: "#f0edf6",
+          inactiveColor: "#3e2465",
+          //tabBarStyle: { backgroundColor: "#003f5c" },
+          headerStyle: {
+            backgroundColor: "#003f5c", // Set the background color of the header (Top Tab bar)
+          },
+        }}
+        barStyle={{ paddingBottom: 48 }}
+      >
+        <Tab.Screen
+          name="TabHomeScreen"
+          component={HomeStack}
+          options={{
+            tabBarLabel: "Home",
+            headerShown: true,
+
+            headerStyle: {
+              backgroundColor: "#003f5c", // Set the background color of the header (Top Tab bar)
+            },
+            title: null, // Set the title to null to hide it in the header
+            tabBarIcon: ({ color, size }) => (
+              <Ionicons name="md-home" color="blue" size={18} />
+            ),
+          }}
+        />
+
+        <Tab.Screen
+          name="ContentScreen"
+          component={ContentScreen}
+          options={{
+            tabBarLabel: "Content",
+            headerShown: true,
+
+            headerStyle: {
+              backgroundColor: "#003f5c", // Set the background color of the header (Top Tab bar)
+            },
+            title: null, // Set the title to null to hide it in the header
+            tabBarIcon: ({ color, size }) => (
+              <MaterialCommunityIcons
+                name="content-paste"
+                color="blue"
+                size={18}
+              />
+            ),
+            //tabBarBadge: 1,
+          }}
+        />
+        <Tab.Screen
+          name="TabDetailScreen"
+          component={DetailScreen}
+          options={{
+            tabBarLabel: "Details",
+            headerShown: true,
+
+            headerStyle: {
+              backgroundColor: "#003f5c", // Set the background color of the header (Top Tab bar)
+            },
+            title: null, // Set the title to null to hide it in the header
+            tabBarIcon: ({ color, size }) => (
+              <MaterialCommunityIcons name="bell" color="blue" size={18} />
+            ),
+            tabBarBadge: 3,
+          }}
+        />
+
+        <Tab.Screen
+          name="Logout"
+          component={LoginScreen}
+          options={{
+            tabBarLabel: "Login",
+            headerShown: true,
+
+            headerStyle: {
+              backgroundColor: "#003f5c", // Set the background color of the header (Top Tab bar)
+            },
+            title: null, // Set the title to null to hide it in the header
+            tabBarIcon: ({ color, size }) => (
+              <Ionicons name="person" color="blue" size={20} />
+              //<Ionicons name="log-out-outline" color="blue" size={25} />
+            ),
+          }}
+        />
+      </Tab.Navigator>
+    </NavigationContainer>
+  );
+};
+
+export default App;
